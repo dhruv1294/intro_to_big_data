@@ -1,0 +1,29 @@
+# Dockerfile to create an analyzer image that runs the analyze.sh script.
+
+# Use an ARG to define the project name, allowing the base image to be customized.
+# Defaults to 'p1' if not provided during the build.
+ARG PROJECT=p1
+
+# Start from the Ollama image created previously.
+# This image already contains Ollama and the gemma3:1b model.
+FROM ${PROJECT}-ollama:latest
+
+# Install git, which is required by the analysis script but not in the base image.
+# We also clean up the apt cache to keep the image size down.
+RUN apt-get update && \
+    apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the working directory for the container.
+WORKDIR /app
+
+# Copy the analysis script into the container's working directory.
+COPY analyze.sh .
+
+# Make the script executable.
+RUN chmod +x analyze.sh
+
+# Set the default command to run when the container starts.
+# This will execute the analysis script.
+CMD ["./analyze.sh"]
+

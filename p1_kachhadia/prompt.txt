@@ -1,0 +1,26 @@
+Summarize the following code diff:
+diff --git a/calc.py b/calc.py
+index 5a80faf..b14e36d 100644
+--- a/calc.py
++++ b/calc.py
+@@ -2,8 +2,10 @@
+ import sys
+ 
+ def main():
++    USAGE = f"Usage: {sys.argv[0]} <operation> <num1> <num2>\nSupported operations: add, sub, mul, div"
++    
+     if len(sys.argv) != 4:
+-        print(f"Usage: {sys.argv[0]} add <num1> <num2>")
++        print(USAGE)
+         sys.exit(1)
+     
+     operation = sys.argv[1]
+@@ -25,7 +27,7 @@ def main():
+         result = num1 / num2
+     else:
+         print(f"Error: Unknown operation '{operation}'")
+-        print("Supported operations: add, sub, mul, div")
++        print(USAGE)
+         sys.exit(1)
+     
+     # Print integer if result is whole number, otherwise float
